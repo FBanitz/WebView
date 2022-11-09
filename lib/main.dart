@@ -56,7 +56,11 @@ class _HomeState extends State<Home> {
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        url = controller.text;
+                        if (controller.text.startsWith( 'https://')) {
+                          url = controller.text;
+                        } else {
+                          url = 'https://${controller.text}';
+                        }
                       });
                     },
                     child: const Text('Go !'),
