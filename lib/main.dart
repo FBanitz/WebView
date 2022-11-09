@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:webviewx/webviewx.dart';
 
 void main() {
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return const GetMaterialApp(
       title: 'WebView Demo',
       home: Home(),
     );
@@ -55,13 +56,24 @@ class _HomeState extends State<Home> {
                   const SizedBox(width: 15,),
                   ElevatedButton(
                     onPressed: () {
-                      setState(() {
-                        if (controller.text.startsWith( 'https://')) {
-                          url = controller.text;
-                        } else {
-                          url = 'https://${controller.text}';
-                        }
-                      });
+                      if (controller.text.startsWith('http://')) {
+                        Get.snackbar(
+                          "Error",
+                          "http:// is not supported, please use https://",
+                          backgroundColor: Color.fromARGB(255, 183, 51, 28),
+                          colorText: Colors.white,
+                          icon: const Icon(Icons.error, color: Colors.white,),
+                        );
+                        
+                      } else {
+                        setState(() {
+                          if (controller.text.startsWith('https://')) {
+                            url = controller.text;
+                          } else {
+                            url = 'https://${controller.text}';
+                          }
+                        });
+                      }
                     },
                     child: const Text('Go !'),
                   ),
